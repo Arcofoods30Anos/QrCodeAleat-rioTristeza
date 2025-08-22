@@ -39,7 +39,6 @@
 </head>
 <body>
   <div class="container">
-    <h1>Mensagem para este dispositivo</h1>
     <div id="mensagem" class="mensagem">Carregando...</div>
     <div id="status" class="status"></div>
   </div>
@@ -112,8 +111,7 @@
     const texto = mensagens[indice];
 
     document.getElementById("mensagem").innerText = texto;
-    document.getElementById("status").innerText =
-      `Mensagem ${pos + 1} de ${mensagens.length} nesta rodada`;
+    document.getElementById("status").innerText;
 
     // Salva progresso
     localStorage.setItem("ordemMensagens", JSON.stringify(ordem));
