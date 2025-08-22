@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensagens Aleatórias</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b0f14;
+      color: #e8f0fb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      padding: 20px;
+      background: #111827;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .mensagem {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    .status {
+      font-size: 0.9em;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Mensagem para este dispositivo</h1>
+    <div id="mensagem" class="mensagem">Carregando...</div>
+    <div id="status" class="status"></div>
+  </div>
+
+  <script>
+    const mensagens = [
+      "Às vezes a dor pesa tanto que parece insuportável, mas pedir ajuda pode torná-la mais leve.",
+      "Reconhecer que não está bem não é fraqueza, é o primeiro passo para recomeçar.",
+      "A tristeza pode parecer infinita, mas nenhum sentimento é eterno.",
+      "Quando tudo perder o sentido, lembre-se: buscar apoio pode reacender a esperança.",
+      "Chorando sozinho, você se afoga na dor; compartilhando, você começa a se salvar.",
+      "A vida pode escurecer, mas sempre existe alguém disposto a acender uma luz ao seu lado.",
+      "Até o coração mais machucado merece descansar e se curar.",
+      "A tristeza pode gritar dentro de você, mas sua coragem pode falar ainda mais alto.",
+      "Sentir-se sem forças não significa não ter força alguma.",
+      "Permita-se cair, mas também permita-se levantar com ajuda.",
+      "A dor que você sente é real, mas a esperança também pode ser.",
+      "Você não precisa vencer sozinho aquilo que está tentando te derrubar.",
+      "Mesmo na escuridão, o desejo de continuar pode ser sua chama mais forte.",
+      "A tristeza não define quem você é, apenas mostra o quanto você precisa de cuidado.",
+      "Quando o peso da mente for grande demais, divida-o com alguém de confiança.",
+      "Reconhecer a própria fragilidade é um ato de coragem.",
+      "Você pode estar em pedaços agora, mas cada parte sua ainda importa.",
+      "A tempestade dentro de você não apaga o valor da sua existência.",
+      "Pedir ajuda não é desistir, é lutar de outra forma.",
+      "A solidão dói, mas abrir espaço para alguém pode trazer alívio.",
+      "Não se cobre sorrir quando a alma chora, mas permita que o choro seja ouvido.",
+      "Você não precisa fingir ser forte para merecer amor e cuidado.",
+      "A tristeza não é vergonha; é um chamado para acolhimento.",
+      "Mesmo os dias mais cinzentos podem abrir caminho para a luz.",
+      "É possível estar quebrado por dentro e ainda assim ser digno de cuidado.",
+      "Quando a mente te fizer acreditar que não há saída, lembre-se: procurar apoio é uma porta.",
+      "O silêncio pode aumentar a dor; compartilhar pode trazer cura.",
+      "Aceitar a própria dor é o início de uma transformação.",
+      "A tristeza pode te desacelerar, mas não precisa te paralisar.",
+      "O peso da vida pode ser grande demais para um só; divida-o.",
+      "Você não precisa ter todas as respostas para buscar ajuda.",
+      "A esperança pode estar escondida, mas não desapareceu.",
+      "Cuidar da mente é tão importante quanto cuidar do corpo.",
+      "Um passo em direção ao cuidado pode ser pequeno, mas pode mudar tudo.",
+      "Mesmo cansado da luta, você ainda merece viver momentos de paz."
+    ];
+
+    // Recupera ordem salva ou gera nova
+    function getOrder() {
+      const saved = localStorage.getItem("ordemMensagens");
+      if (saved) return JSON.parse(saved);
+      return shuffle([...Array(mensagens.length).keys()]);
+    }
+
+    // Embaralha array (Fisher-Yates)
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    let ordem = getOrder();
+    let pos = parseInt(localStorage.getItem("posicaoMensagem") || "0");
+
+    // Se chegou ao fim, embaralha de novo
+    if (pos >= ordem.length) {
+      ordem = shuffle([...Array(mensagens.length).keys()]);
+      pos = 0;
+    }
+
+    const indice = ordem[pos];
+    const texto = mensagens[indice];
+
+    document.getElementById("mensagem").innerText = texto;
+    document.getElementById("status").innerText =
+      `Mensagem ${pos + 1} de ${mensagens.length} nesta rodada`;
+
+    // Salva progresso
+    localStorage.setItem("ordemMensagens", JSON.stringify(ordem));
+    localStorage.setItem("posicaoMensagem", pos + 1);
+  </script>
+</body>
+</html>
